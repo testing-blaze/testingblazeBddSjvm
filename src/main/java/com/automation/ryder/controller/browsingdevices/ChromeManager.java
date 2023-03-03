@@ -4,6 +4,7 @@ import com.automation.ryder.controller.configuration.DeviceDriver;
 import com.automation.ryder.controller.configuration.EnvironmentFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -57,21 +58,22 @@ public final class ChromeManager implements DeviceDriver {
 
         }
 
-        if ("local".equalsIgnoreCase(EnvironmentFactory.getHub())) {
-            driver = new RemoteWebDriver(service.getUrl(), CapabilitiesManager.getChromeCapabilities());
-            if (!EnvironmentFactory.isHeadless()) {
-                driver.manage().window().maximize();
+            if ("local".equalsIgnoreCase(EnvironmentFactory.getHub())) {
+                driver = new RemoteWebDriver(service.getUrl(), CapabilitiesManager.getChromeCapabilities());
+                if (!EnvironmentFactory.isHeadless()) {
+                    driver.manage().window().maximize();
+                }
+                driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
+            } else {
+                try {
+                    driver = new RemoteWebDriver(new URL(EnvironmentFactory.getHub() + "/wd/hub"),
+                            CapabilitiesManager.getChromeCapabilities());
+                    driver.setFileDetector(new LocalFileDetector());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
-            driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
-        } else {
-            try {
-                driver = new RemoteWebDriver(new URL(EnvironmentFactory.getHub() + "/wd/hub"),
-                        CapabilitiesManager.getChromeCapabilities());
-                driver.setFileDetector(new LocalFileDetector());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
+
     }
 
     @Override

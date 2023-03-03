@@ -90,9 +90,7 @@ public final class BootStrap {
      */
     @After(order=1)
     public void theEnd() throws IOException {
-        performClosureJobs();
-        //ScenarioController.printFinalLogs();
-
+        if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         if ("true".equalsIgnoreCase(System.getProperty("docker"))) {
             dockerController.stopDocker();
         }
@@ -101,40 +99,6 @@ public final class BootStrap {
         } else {
             browserWrapUp();
         }
-    }
-
-    /**
-     * perform After All jobs.
-     *
-     * @author nauman.shahid
-     */
-    private synchronized void performClosureJobs() {
-        /*
-        int scenarioCountClosure = ScenarioController.getTotalScenarioCount() - ScenarioController.getExecutedScenarioCount();
-        if (threadCount < 2) {
-            if (scenarioCountClosure == 0) {
-                //triggerReportAnalyticsGeneration();
-                System.out.println("==========================Closing it Now");
-            }
-        }
-
-        if (threadCount > 1) {
-            int testJvmCount = 0;
-            for (VirtualMachineDescriptor listOfProcess : VirtualMachine.list()) {
-                System.out.println("xxxxxxxxxxxxx- Result is -- "+listOfProcess.toString().contains("jvmRun"));
-                if (listOfProcess.toString().contains("jvmRun")) {
-                    testJvmCount++;
-                    if (testJvmCount > 1) break;
-                }
-            }
-            System.out.println("tstJvmCount is  "+testJvmCount);
-            if (testJvmCount == 1) {
-                //triggerReportAnalyticsGeneration();
-                System.out.println("==========================Closing it now===============");
-            }
-        }
-
-         */
     }
 
     /**
@@ -159,8 +123,8 @@ public final class BootStrap {
      * @author nauman.shahid
      */
     private void runBrowser() {
+        if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         device.setupController();
-        System.out.println("Driver is ----------------------------->  "+device.getDriver().hashCode());
         device.getDriver().get(EnvironmentFactory.getEnvironmentUrl());
     }
 
@@ -176,6 +140,7 @@ public final class BootStrap {
      * @author nauman.shahid
      */
     private void browserWrapUp() throws IOException {
+        if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         if ("true".equalsIgnoreCase(System.getProperty("recordVideo"))) {
             ScreenCapture.stopRecordVideo();
         }

@@ -47,8 +47,6 @@ public class ScenarioController {
         //System.out.println("Scenario Number in Current Execution: " + getExecutedScenarioCount() + " / " + totalNumberOfScenarios);
         System.out.println("Scenario Name: " + getScenario().getName());
         System.out.println("Scenario Tags: " + getScenario().getSourceTagNames());
-        System.out.println("Controlling DI instance # " + device.hashCode());
-        System.out.println("Controlling WebDriver instance # " + device.getDriver().hashCode());
         System.out.println("--------------------------------------------------------------------------------");
 
     }
@@ -57,20 +55,6 @@ public class ScenarioController {
         if (scenario.isFailed()) {
             failedScenarioCount++;
         }
-        /*
-        User.performs().updatingOfReportWith().newLine();
-        User.performs().updatingOfReportWith().write(LogLevel.INFO,  "Scenario Result Analysis:");
-        User.performs().updatingOfReportWith().write(LogLevel.EMPTY_LABEL,  "                          Successful / Failed / Total scenarios: "
-                + (executedScenarioCount - failedScenarioCount) + " / "  + failedScenarioCount + " / " + totalNumberOfScenarios);
-        User.performs().updatingOfReportWith().newLine();
-
-        if (!"false".equalsIgnoreCase(System.getProperty("printConsoleLogs"))) {
-            System.out.println();
-            System.out.println("Suite Execution Summary:");
-            System.out.println("Successful / Failed / Total scenarios: "
-                    + (executedScenarioCount - failedScenarioCount) + " / "  + failedScenarioCount + " / " + totalNumberOfScenarios);
-            System.out.println();
-        }*/
     }
 
     /**

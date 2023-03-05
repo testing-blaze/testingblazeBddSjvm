@@ -3,7 +3,7 @@ package com.automation.ryder.controller.actionshub.coreActions.webApp;
 import com.automation.ryder.controller.actionshub.abstracts.Element;
 import com.automation.ryder.controller.actionshub.coreActions.elementfunctions.MouseActions;
 import com.automation.ryder.controller.actionshub.coreActions.mobile.Mobile;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
+import com.automation.ryder.controller.access.ElementAPI;
 import com.automation.ryder.library.core.JavaScript;
 import org.openqa.selenium.WebElement;
 

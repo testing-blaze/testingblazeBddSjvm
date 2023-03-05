@@ -1,7 +1,7 @@
 package com.automation.ryder.controller.actionshub.coreActions.webApp;
 
 import com.automation.ryder.controller.actionshub.abstracts.Element;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
+import com.automation.ryder.controller.access.ElementAPI;
 
 /**
  * get various functionalities for dates , urls , browser handling , navigations etc.

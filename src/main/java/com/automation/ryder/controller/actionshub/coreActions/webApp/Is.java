@@ -1,12 +1,10 @@
 package com.automation.ryder.controller.actionshub.coreActions.webApp;
 
 import com.automation.ryder.controller.actionshub.abstracts.Element;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
+import com.automation.ryder.controller.access.ElementAPI;
 import com.automation.ryder.controller.browsingdevices.BrowsingDeviceBucket;
 import com.automation.ryder.controller.configuration.DeviceDriver;
 import org.openqa.selenium.*;
-
-import java.util.List;
 
 /**
  * @author nauman.shahid

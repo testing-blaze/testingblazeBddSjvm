@@ -24,7 +24,6 @@
     <selenium.server.version>4.0.0-alpha-2</selenium.server.version>
     <appium.version>7.6.0</appium.version>
     <cucumber.version>6.9.1</cucumber.version> <!--Alert: Extent report current dependency is halting upgrading to new cucumber version-->
-    <cucable.version>1.7.0</cucable.version>
     <report.version>2.9.4</report.version>
     <junit.version>5.8.1</junit.version>
     <maven.surefire.verion>3.0.0-M5</maven.surefire.verion>
@@ -36,10 +35,6 @@
     <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
     <mave.source.plugin>3.2.1</mave.source.plugin>
     <jacadoc.version>3.2.0</jacadoc.version>
-    <generated.runner.directory>${project.build.directory}/parallel/runners</generated.runner.directory>
-    <generated.feature.directory>${project.build.directory}/parallel/features</generated.feature.directory>
-    <cucumber.report.json.location>${project.build.directory}/cucumber-report</cucumber.report.json.location>
-    <generated.report.location>${project.build.directory}/Automation-Report</generated.report.location>
   </properties>
 
   <dependencies>

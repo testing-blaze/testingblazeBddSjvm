@@ -79,6 +79,18 @@ public final class EnvironmentFactory {
         return environmentName;
     }
 
+    private static String azureServiceBusUrl;
+    public static String getAzureServiceBusUrl() {
+        if (azureServiceBusUrl == null) {
+            try {
+                azureServiceBusUrl = getProps().ReadPropertyFile("environment.properties", EnvironmentFactory.getEnvironmentName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return azureServiceBusUrl;
+    }
+
     private static String appName;
     private static boolean checkedAppName = false;
 
@@ -108,22 +120,6 @@ public final class EnvironmentFactory {
         return device;
     }
 
-    private static String deviceVersion;
-
-    public static String getDeviceVersion() {
-        /*
-        if (deviceVersion == null) {
-            WebDriver driver = .getInstance(BrowsingDeviceBucket.class).getDriver();
-            if (driver instanceof RemoteWebDriver) {
-                deviceVersion = ((RemoteWebDriver) driver).getCapabilities().getVersion();
-            } else {
-                deviceVersion = "Not Available";
-            }
-        }
-         */
-        return deviceVersion;
-    }
-
     private static String browserVersion;
 
     public static String getBrowserVersion() {
@@ -150,21 +146,6 @@ public final class EnvironmentFactory {
             }
         }
         return driverVersion;
-    }
-
-    private static String platformInfo;
-
-    public static String getPlatformInfo() {
-        /*
-        if (platformInfo == null) {
-           WebDriver driver = .getInstance(BrowsingDeviceBucket.class).getDriver();
-            if (driver instanceof RemoteWebDriver) {
-                platformInfo = Arrays.toString(((RemoteWebDriver) driver).getCapabilities().getPlatform().getPartOfOsName());
-            } else {
-                platformInfo = "Not Available";
-            }
-        }*/
-        return platformInfo;
     }
 
     private static int maxWaitTime = 0;
@@ -229,6 +210,7 @@ public final class EnvironmentFactory {
     private static Properties_Logs getProps(){
         return new Properties_Logs();
     }
+
 
 
 }

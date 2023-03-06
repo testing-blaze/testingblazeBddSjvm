@@ -44,8 +44,6 @@ public class UserPerforms {
         private Accessibility accessibility;
 
         private EyesManager visualTesting;
-        private AzureServiceBus azureServiceBus;
-        private DataBases dataBases;
         private ElementAPI elementAPI;
 
         public UserPerforms(FrameManager frameManager, JavaScript javaScript, Ng ng, ElementAPI elementAPI, FindMyElements findMyElements, Properties_Logs pl, RobotActions ra, ScreenCapture sc, Sanitize sanitize, Waits wait,
@@ -76,8 +74,6 @@ public class UserPerforms {
             this.browser=browser;
             this.dates=dates;
             this.elementAPI=elementAPI;
-            this.azureServiceBus=azureServiceBus;
-            this.dataBases=dataBases;
             setDependenciesForElementAPIClass();
         }
 

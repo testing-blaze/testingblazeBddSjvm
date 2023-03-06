@@ -7,7 +7,6 @@ public class BaseSteps {
     private BaseWorkFlow baseWorkFlow;
 
     public BaseSteps(BaseWorkFlow baseWorkFlow) {
-
         this.baseWorkFlow = baseWorkFlow;
     }
 

@@ -71,7 +71,7 @@ public final class ReportController {
             toConsole += (color != null ? ConsoleFormatter.setTextColor(color, icon.toString()) : icon.toString()) + "  ";
         }
         toConsole += reportLog;
-        System.out.println(toConsole);
+       // System.out.println(toConsole);
     }
 
     /**

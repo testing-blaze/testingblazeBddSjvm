@@ -1,5 +1,7 @@
 package com.automation.ryder.controller.reports;
 
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+
 import static com.automation.ryder.library.misc.ConsoleFormatter.COLOR;
 import static com.automation.ryder.library.misc.ConsoleFormatter.COLOR.*;
 import static com.automation.ryder.library.misc.ConsoleFormatter.setTextColor;

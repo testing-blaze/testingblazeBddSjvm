@@ -15,13 +15,17 @@ public class BaseWorkFlow {
         this.serviceUserPerforms=serviceUserPerforms;
     }
     public void makingSampleApiCalls() {
-        //userPerforms.textInput().in(By.xpath("//*[@aria-label='Search']"),"ghasfdhgfashdfhasfdhasfhdfashfdhasg");
-        //userPerforms.click().withMouse().on(By.xpath("//input[2]"));
+        userPerforms.textInput().in(By.xpath("//*[@aria-label='Search']"),"ghasfdhgfashdfhasfdhasfhdfashfdhasg");
+
         //serviceUserPerforms.restHttp().getCall(EnvironmentFactory.getEnvironmentUrl()+"/v1/employees",null,null);
         //WebElement abc = userPerforms.getElementReference().of(By.xpath("//input[2]"));
         //System.out.println(userPerforms.getElementReference().forListOfElements().of(By.xpath("//input[2]")).size());
         //userPerforms.click().on(userPerforms.getElementReference().ofNested(abc,""));
-        serviceUserPerforms.azureServiceBusActionsTo().sendMessageToTopic("","","");
-        Assert.assertTrue(false);
+       // serviceUserPerforms.azureServiceBusActionsTo().sendMessageToTopic("","","");
+        //Assert.assertTrue(false);
+    }
+
+    public void sample2() {
+        userPerforms.click().withMouse().on(By.xpath("//input[2]"));
     }
 }

@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 
 @CucumberOptions(features = { "classpath:features" }, glue = { "classpath:com.automation.ryder.controller.configuration",
 		"classpath:com.automation.ryder.steps"}, plugin = { "pretty", "json:target/ryderAutomation.json",
-				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}, monochrome = true, tags = "@sample1")
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}, tags = "@sample1")
 
 /**
  * @modified: Modified for parallel run

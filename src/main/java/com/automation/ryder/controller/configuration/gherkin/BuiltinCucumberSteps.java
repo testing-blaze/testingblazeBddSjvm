@@ -1,4 +1,4 @@
-package com.automation.ryder.controller.actionshub.gherkin;
+package com.automation.ryder.controller.configuration.gherkin;
 
 import io.cucumber.java.en.When;
 import jdk.jfr.Description;

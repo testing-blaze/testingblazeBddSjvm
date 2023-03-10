@@ -1,6 +1,7 @@
 package com.automation.ryder.controller.configuration;
 
 import com.automation.ryder.controller.browsingdevices.BrowsingDeviceBucket;
+import com.automation.ryder.controller.reports.ReportController;
 import com.automation.ryder.library.core.Convert;
 import com.automation.ryder.library.misc.ScreenCapture;
 import io.cucumber.java.Before;
@@ -24,8 +25,6 @@ import static com.automation.ryder.library.misc.ConsoleFormatter.setTextColor;
  */
 public final class BootStrap {
     private final DeviceDriver device;
-    private final int retryCount = 0;
-    protected Thread aliveThread;
     private ScenarioController scenarioController;
     private Convert convert;
     private ScreenCapture screenCapture;
@@ -33,17 +32,14 @@ public final class BootStrap {
     private AppiumController appiumController;
     private final int threadCount = System.getProperty("threads") == null ? 0 : Integer.parseInt(System.getProperty("threads"));
 
-    static {
-        createLogo();
-    }
-
     /**
      * setup the launching device
      *
      * @param device
      * @author nauman.shahid
      */
-    public BootStrap(BrowsingDeviceBucket device, ScenarioController scenarioController, Convert convert,ScreenCapture screenCapture,DockerController dockerController,AppiumController appiumController) {
+    public BootStrap(BrowsingDeviceBucket device, ScenarioController scenarioController, Convert convert, ScreenCapture screenCapture, DockerController dockerController, AppiumController appiumController) {
+        createLogo();
         this.device = device;
         this.scenarioController=scenarioController;
         this.convert=convert;
@@ -163,7 +159,7 @@ public final class BootStrap {
         appiumController.stopServer();
     }
 
-    private static void createLogo() {
+    private void createLogo() {
         for (int i = 1; i <= 5; i++) {
             System.out.println(setTextColor(COLOR.values()[i], "*".repeat(i)));
         }

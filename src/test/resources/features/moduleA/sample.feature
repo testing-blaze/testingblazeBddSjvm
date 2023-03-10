@@ -5,7 +5,7 @@ Feature: Sample feature file
   Scenario: Make sample Api calls
     Given I make different api calls
     And I make systemout
-    And I pause execution for "50" seconds
+    And I pause execution for "1" seconds
 
 
   @sample2

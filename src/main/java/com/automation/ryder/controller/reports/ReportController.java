@@ -29,6 +29,7 @@ public final class ReportController {
     private void printLogs(LogLevel logLevel,String reportLog) {
         ExtentCucumberAdapter.addTestStepLog("* &nbsp;"+reportLog);
         System.out.println(logLevel.getLog()+" "+reportLog);
+        //scenarioController.getScenario().log("* &nbsp;"+reportLog);
     }
 
     /**

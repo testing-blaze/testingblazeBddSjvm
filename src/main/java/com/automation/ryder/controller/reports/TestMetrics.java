@@ -79,6 +79,7 @@ public class TestMetrics {
 	}
 	
 	public static String getFeatureName(Scenario sc) {
+		System.out.println("====  "+sc.getName());
 		String featuretemp[]=sc.getId().split("/");
 		String fname=featuretemp[1].split(":")[0].split("\\.")[0];
 		

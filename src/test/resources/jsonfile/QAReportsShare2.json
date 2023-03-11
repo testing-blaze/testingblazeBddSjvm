@@ -4,7 +4,7 @@
             "$emailList"
         ],
         "templateId": "d-d7302a772aaf4ccf841eff46e569d2ca",
-        "templateParameters": "{'Subject': 'UVS US Test Automation Result', 'Greetings': 'Hello Team,', 'TXT': 'Please find attached the last result of UVS Test Automation enclosed.', 'PipeLine': 'https://ryder-vsts.visualstudio.com/UVS%20Website/_release?_a=releases&view=mine&definitionId=24'}",
+        "templateParameters": "{'Subject': 'Test Automation Result', 'Greetings': 'Hello Team,', 'TXT': 'Please find attached the last result of Test Automation enclosed.'}",
         "Attachments": [
             {
                 "Content": "ReportContentAttachment",
@@ -15,6 +15,6 @@
             }
         ]
     },
-    "system": "RyderGyde",
+    "system": "Ryder Inc",
     "EntityId": "QATEstResults"
 }

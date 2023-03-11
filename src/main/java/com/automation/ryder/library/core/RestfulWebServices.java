@@ -7,27 +7,27 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.apache.commons.lang.StringUtils;
 import org.testng.Assert;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author nauman.shahid
-
+ * <p>
  * Handles all Api calls
  */
 public final class RestfulWebServices {
     private static final Gson gson = new Gson();
-    public boolean isJvmHookOn=false;
+    public boolean isJvmHookOn = false;
 
     private ReportController reportController;
     private JsonParser jsonParser;
 
     public RestfulWebServices(ReportController reportController) {
-        this.reportController=reportController;
+        this.reportController = reportController;
     }
 
     public enum CallTypes {GET, POST, PATCH, DELETE, PUT}
@@ -66,12 +66,12 @@ public final class RestfulWebServices {
      * Make a get call
      *
      * @param endPoint
-     * @param key
-     * @param keyValue
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
      * @return
      */
-    public Response getCall(String endPoint, String key, String keyValue) {
-        return makeCall(CallTypes.GET, null, null, endPoint, key, keyValue, null);
+    public Response getCall(String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
+        return makeCall(CallTypes.GET, null, null, endPoint, header, authentication);
     }
 
     /**
@@ -80,14 +80,12 @@ public final class RestfulWebServices {
      * @param jsonElement
      * @param stringBody
      * @param endPoint
-     * @param key
-     * @param keyValue
-     * @param authToken
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
      * @return
      */
-    public Response postCall(JsonElement jsonElement, String stringBody, String endPoint, String key, String keyValue,
-                             String authToken) {
-        return makeCall(CallTypes.POST, jsonElement, stringBody, endPoint, key, keyValue, authToken);
+    public Response postCall(JsonElement jsonElement, String stringBody, String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
+        return makeCall(CallTypes.POST, jsonElement, stringBody, endPoint, header, authentication);
     }
 
     /**
@@ -96,14 +94,12 @@ public final class RestfulWebServices {
      * @param jsonElement
      * @param stringBody
      * @param endPoint
-     * @param key
-     * @param keyValue
-     * @param authToken
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
      * @return
      */
-    public Response putCall(JsonElement jsonElement, String stringBody, String endPoint, String key, String keyValue,
-                            String authToken) {
-        return makeCall(CallTypes.PUT, jsonElement, stringBody, endPoint, key, keyValue, authToken);
+    public Response putCall(JsonElement jsonElement, String stringBody, String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
+        return makeCall(CallTypes.PUT, jsonElement, stringBody, endPoint, header, authentication);
     }
 
     /**
@@ -112,14 +108,12 @@ public final class RestfulWebServices {
      * @param jsonElement
      * @param stringBody
      * @param endPoint
-     * @param key
-     * @param keyValue
-     * @param authToken
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
      * @return
      */
-    public Response patchCall(JsonElement jsonElement, String stringBody, String endPoint, String key, String keyValue,
-                              String authToken) {
-        return makeCall(CallTypes.PATCH, jsonElement, stringBody, endPoint, key, keyValue, authToken);
+    public Response patchCall(JsonElement jsonElement, String stringBody, String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
+        return makeCall(CallTypes.PATCH, jsonElement, stringBody, endPoint, header, authentication);
     }
 
     /**
@@ -128,41 +122,41 @@ public final class RestfulWebServices {
      * @param jsonElement
      * @param stringBody
      * @param endPoint
-     * @param key
-     * @param keyValue
-     * @param authToken
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
      * @return
      */
-    public Response DeleteCall(JsonElement jsonElement, String stringBody, String endPoint, String key, String keyValue,
-                               String authToken) {
-        return makeCall(CallTypes.DELETE, jsonElement, stringBody, endPoint, key, keyValue, authToken);
+    public Response DeleteCall(JsonElement jsonElement, String stringBody, String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
+        return makeCall(CallTypes.DELETE, jsonElement, stringBody, endPoint, header, authentication);
     }
 
     /**
-     *  This method can validate any sort of response.
+     * This method can validate any sort of response.
+     *
      * @param expectedResponseInString pass response in String
-     * @param actualResponseInString pass actual response in String
-     * @param dontCheckTheseKeys add Set of keywords that should not be part of validation...
-     *                           e.g
-     *                           {
-     *                              "name":{
-     *                                  "firstname":"jitu",
-     *                                  "lastname":"pisal
-     *                              }
-     *                           }
-     *   if we don't want to validate "lastname" then add it in the Set<String>
+     * @param actualResponseInString   pass actual response in String
+     * @param dontCheckTheseKeys       add Set of keywords that should not be part of validation...
+     *                                 e.g
+     *                                 {
+     *                                 "name":{
+     *                                 "firstname":"jitu",
+     *                                 "lastname":"pisal
+     *                                 }
+     *                                 }
+     *                                 if we don't want to validate "lastname" then add it in the Set<String>
      */
-    public void validateJsonResponse(String expectedResponseInString, String actualResponseInString, Set<String> dontCheckTheseKeys){
+    public void validateJsonResponse(String expectedResponseInString, String actualResponseInString, Set<String> dontCheckTheseKeys) {
         validateJsonResponse(getJsonObject(expectedResponseInString),
                 getJsonObject(actualResponseInString), dontCheckTheseKeys);
     }
 
     /**
-     *  This method can validate any sort of response.
+     * This method can validate any sort of response.
+     *
      * @param expectedResponseInString pass response in String
-     * @param actualResponseInString pass actual response in String
+     * @param actualResponseInString   pass actual response in String
      */
-    public void validateJsonResponse(String expectedResponseInString, String actualResponseInString){
+    public void validateJsonResponse(String expectedResponseInString, String actualResponseInString) {
         validateJsonResponse(getJsonObject(expectedResponseInString),
                 getJsonObject(actualResponseInString),
                 new HashSet<>());
@@ -175,14 +169,12 @@ public final class RestfulWebServices {
      * @param jsonElement
      * @param stringBody
      * @param endPoint
-     * @param key
-     * @param keyValue
-     * @param authToken
-     * @return
+     * @param header         provide header key,value else pass null
+     * @param authentication provide map of auth: Map<AuthType,Map<AuthKey,AuthValue></AuthKey,AuthValue> :: Map<"Basic Auth",Map<"username","password">
+     * @return reponse
      */
     private Response makeCall(CallTypes callType,
-                              JsonElement jsonElement, String stringBody, String endPoint, String key, String keyValue,
-                              String authToken) {
+                              JsonElement jsonElement, String stringBody, String endPoint, Map<String, String> header, Map<String, Map<String, String>> authentication) {
 
         // Make sure that GET calls do not use relaxed HTTPS validation
         RequestSpecification request;
@@ -195,34 +187,32 @@ public final class RestfulWebServices {
         // Construct the request
         request.accept("application/json");
         request.contentType(ContentType.JSON);
-        if (keyValue != null) {
-            if (StringUtils.containsIgnoreCase(keyValue, "Bearer")) request.header(key, keyValue);
-            else {
-                request.auth().preemptive().basic(key, keyValue);
-            }
 
-        }
-        if (authToken != null) {
-            request.auth().oauth2(authToken);
-        }
-        if (jsonElement != null) {
-            if(!isJvmHookOn) {
-                try {
-                    reportController.write(LogLevel.INFO, "Json is " + jsonElement);
-                } catch (Exception e) {
-                    // to handle reporting exception - avoid unnecessary exceptions
+        if (header != null) {
+            if (header.size() > 0) {
+                for (String headerKeys : header.keySet()) {
+                    request.header(headerKeys, header.get(headerKeys));
                 }
             }
+        }
+        if (authentication != null) {
+            if (authentication.size() > 0) {
+                if (authentication.containsKey("basic")) {
+                    for (String keySet : authentication.get("Basic Auth").keySet()) {
+                        request.auth().preemptive().basic(keySet, authentication.get("basic").get(keySet));
+                    }
+                } else if (authentication.containsKey("OAuth")) {
+                    for (String keySet : authentication.get("OAuth").keySet()) {
+                        request.auth().oauth2(authentication.get("OAuth").get(keySet));
+                    }
+                }
+            }
+        }
+
+        if (jsonElement != null) {
             request.body(gson.toJson(jsonElement));
         }
         if (stringBody != null) {
-            if(!isJvmHookOn) {
-                try {
-                    reportController.write(LogLevel.INFO, "Json is " + stringBody);
-                } catch (Exception e) {
-                    // to handle reporting exception - avoid unnecessary exceptions
-                }
-            }
             request.body(stringBody);
         }
 
@@ -247,7 +237,8 @@ public final class RestfulWebServices {
         }
         try {
             reportsLogger(callType, response);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             // to handle reporting exception - avoid unnecessary exceptions
             consoleLogger(callType, response);
         }
@@ -271,18 +262,19 @@ public final class RestfulWebServices {
     }
 
     /**
-     *  This method can validate any sort of response.
-     * @param expectedResponse pass response in JsonObject(gson)
-     * @param actualResponse pass actual response in JsonObject(gson)
+     * This method can validate any sort of response.
+     *
+     * @param expectedResponse   pass response in JsonObject(gson)
+     * @param actualResponse     pass actual response in JsonObject(gson)
      * @param dontCheckTheseKeys add Set of keywords that should not be part of validation...
      *                           e.g
      *                           {
-     *                              "name":{
-     *                                  "firstname":"jitu",
-     *                                  "lastname":"pisal
-     *                              }
+     *                           "name":{
+     *                           "firstname":"jitu",
+     *                           "lastname":"pisal
      *                           }
-     *   if we don't want to validate "lastname" then add it in the Set<String>
+     *                           }
+     *                           if we don't want to validate "lastname" then add it in the Set<String>
      */
     private void validateJsonResponse(JsonObject expectedResponse, JsonObject actualResponse, Set<String> dontCheckTheseKeys) {
         for (String key : actualResponse.keySet()) {

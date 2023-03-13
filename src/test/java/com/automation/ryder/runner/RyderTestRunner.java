@@ -33,6 +33,7 @@ public class RyderTestRunner extends AbstractTestNGCucumberTests {
 
 		try {
 			if (EnvironmentFactory.getSendMail()) {
+				System.out.println("Mail with test result sent as flag is set to Yes");
 				SendMail.sendReport();
 			} else {
 				System.out.println("Mail with test result not sent as flag is set to NO");

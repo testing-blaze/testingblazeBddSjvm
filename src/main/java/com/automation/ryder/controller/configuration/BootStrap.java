@@ -2,6 +2,7 @@ package com.automation.ryder.controller.configuration;
 
 import com.automation.ryder.controller.browsingdevices.BrowsingDeviceBucket;
 import com.automation.ryder.controller.reports.ReportController;
+import com.automation.ryder.controller.reports.TestMetrics;
 import com.automation.ryder.library.core.Convert;
 import com.automation.ryder.library.misc.ScreenCapture;
 import io.cucumber.java.Before;
@@ -57,7 +58,7 @@ public final class BootStrap {
      * @author nauman.shahid
      */
     @Before(order=1)
-    public void initializer(Scenario scenario) throws IOException, AWTException {
+    public synchronized void initializer(Scenario scenario) throws IOException, AWTException {
         this.scenarioController.setScenario(scenario);
         if ("true".equalsIgnoreCase(System.getProperty("recordVideo"))) {
             ScreenCapture.startRecordVideo();
@@ -85,7 +86,8 @@ public final class BootStrap {
      * @throws IOException
      */
     @After(order=1)
-    public void theEnd() throws IOException {
+    public synchronized void theEnd(Scenario scenario) throws IOException {
+        TestMetrics.captureTestMetrics(scenario);
         if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         if ("true".equalsIgnoreCase(System.getProperty("docker"))) {
             dockerController.stopDocker();
@@ -102,7 +104,7 @@ public final class BootStrap {
      *
      * @author nauman.shahid
      */
-    private void captureScreenshot() {
+    private synchronized void captureScreenshot() {
         try {
             if (System.getProperty("enableFullScreenShot") != null && "true".equalsIgnoreCase(System.getProperty("enableFullScreenShot"))) {
                scenarioController.getScenario().attach(((convert.imageToByteArray(screenCapture.captureFullScreenShot(), "PNG"))), "image/png", scenarioController.getScenario().getSourceTagNames().toString());
@@ -118,7 +120,7 @@ public final class BootStrap {
      * @throws IOException
      * @author nauman.shahid
      */
-    private void runBrowser() {
+    private synchronized void runBrowser() {
         if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         device.setupController();
         device.getDriver().get(EnvironmentFactory.getEnvironmentUrl());
@@ -127,7 +129,7 @@ public final class BootStrap {
     /**
      * @author nauman.shahid
      */
-    private void runMobileApp() {
+    private synchronized void runMobileApp() {
         device.setupController();
     }
 
@@ -135,7 +137,7 @@ public final class BootStrap {
      * @throws IOException
      * @author nauman.shahid
      */
-    private void browserWrapUp() throws IOException {
+    private synchronized void browserWrapUp() throws IOException {
         if("api".equalsIgnoreCase(System.getProperty("device"))) return;
         if ("true".equalsIgnoreCase(System.getProperty("recordVideo"))) {
             ScreenCapture.stopRecordVideo();
@@ -153,13 +155,13 @@ public final class BootStrap {
     /**
      * @author nauman.shahid
      */
-    private void mobileWrapUp() {
+    private synchronized void mobileWrapUp() {
         captureScreenshot();
         device.getDriver().quit();
         appiumController.stopServer();
     }
 
-    private void createLogo() {
+    private synchronized void createLogo() {
         for (int i = 1; i <= 5; i++) {
             System.out.println(setTextColor(COLOR.values()[i], "*".repeat(i)));
         }

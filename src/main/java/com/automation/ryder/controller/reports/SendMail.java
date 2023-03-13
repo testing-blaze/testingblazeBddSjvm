@@ -65,7 +65,7 @@ public class SendMail {
 
 		String[] ar1 = stringifiedJSON.split("ReportContentAttachment");
 
-		//stringifiedJSON=stringifiedJSON.replace("$placeholder", generateHTMLTemplate());
+		stringifiedJSON=stringifiedJSON.replace("$placeholder", generateHTMLTemplate());
 
 		stringifiedJSON=stringifiedJSON.replace("$testreportfile", testReportFileName);
 
@@ -135,8 +135,6 @@ public class SendMail {
 				.replace("$totpass", String.valueOf(TestMetrics.totsuitpass))
 				.replace("$totfail", String.valueOf(TestMetrics.totsuitfail))
 				.replace("\'", "\\'"));
-
-		System.out.println("updated template is ==>"+updatedTemplate);
 
 		return updatedTemplate;
 

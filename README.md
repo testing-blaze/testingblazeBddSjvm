@@ -83,5 +83,6 @@ Note: Place the mobile app in “mobileApp” folder in project root. Add “app
 - Parallel: -Ddataproviderthreadcount=2 (If not passed, one thread is default)
 - Wait Time: -DwaitTime= 20 (Default wait time is 10 seconds. This dynamic wait)
 - Headless Mode: -headless=true/false
+- Send Email After Run: -DsendEmail=yes
 ###### Run from IDE
 Go to RyderTestRunner class in src/test and put your tag to run.

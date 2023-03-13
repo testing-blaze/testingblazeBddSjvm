@@ -13,7 +13,7 @@ public class BaseSteps {
 
     @Given("I make different api calls")
     public void makingApiCalls() {
-        this.baseWorkFlow.makeAppointments();
+        this.baseWorkFlow.makingSampleApiCalls();
     }
 
     @And("I make systemout")

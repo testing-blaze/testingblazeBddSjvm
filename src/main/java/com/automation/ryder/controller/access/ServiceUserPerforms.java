@@ -20,7 +20,7 @@ public class ServiceUserPerforms {
         return azureServiceBus;
     }
 
-    public DataBases dataBaseActionsTo(){
+    public DataBases dataBaseActionsOn(){
         return dataBases;
     }
 

@@ -1,13 +1,18 @@
 package com.automation.ryder.runner;
 
+import com.automation.ryder.controller.configuration.EnvironmentFactory;
+import com.automation.ryder.controller.reports.SendMail;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.DataProvider;
+
+import java.io.IOException;
 
 
 @CucumberOptions(features = { "classpath:features" }, glue = { "classpath:com.automation.ryder.controller.configuration",
 		"classpath:com.automation.ryder.steps"}, plugin = { "pretty", "json:target/ryderAutomation.json",
-				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}, monochrome = true, tags = "@sample1")
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}, tags = "@sample1")
 
 /**
  * @modified: Modified for parallel run
@@ -21,6 +26,23 @@ public class RyderTestRunner extends AbstractTestNGCucumberTests {
 	@DataProvider(parallel = true)
 	public Object[][] scenarios() {
 		return super.scenarios();
+	}
+
+	@AfterSuite(alwaysRun = true)
+	public static void sendMailwithResults() throws IOException {
+
+		try {
+			if (EnvironmentFactory.getSendMail()) {
+				System.out.println("Mail with test result sent as flag is set to Yes");
+				SendMail.sendReport();
+			} else {
+				System.out.println("Mail with test result not sent as flag is set to NO");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
 	}
 
 	/*

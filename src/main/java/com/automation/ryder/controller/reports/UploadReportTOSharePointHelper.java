@@ -2,6 +2,9 @@ package com.automation.ryder.controller.reports;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 
 /**
@@ -21,7 +24,7 @@ public class UploadReportTOSharePointHelper {
 
 		try {
 			FileInputStream in = new FileInputStream(System.getProperty("user.dir")
-					+ "\\src\\main\\resources\\configFile\\sharepoint-config.properties");
+					+ "\\src\\main\\resources\\configCore\\sharepoint-config.properties");
 			prop.load(in);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,46 +38,41 @@ public class UploadReportTOSharePointHelper {
 		String UserName = getSpUserName();
 		String Password = getSpPassword();
 
-		//String now = DateTimeHelper.getCurrentDate();
+		String now = getCurrentDate();
 
-		//String datetimeext = DateTimeHelper.getCurrentDateTime("ddMMyyHHmmss");
+		String datetimeext = getCurrentDateTime("ddMMyyHHmmss");
 
-		//SharePointLocation = SharePointLocation + "/" + now;
+		SharePointLocation = SharePointLocation + "/" + now;
 		String path = System.getProperty("user.dir");
 
 		String fileName = path + getResultFileLoc();
 
 		File file = new File(fileName);
 
-		// Create an object of the File class
-		// Replace the file path with path of the directory
+		 //Create an object of the File class
+		 //Replace the file path with path of the directory
 		String currfilebase = fileName.split("\\.(?=[^\\\\.]+$)")[0];
 		String currfileext = fileName.split("\\.(?=[^\\\\.]+$)")[1];
-		//String updatedfilename = currfilebase + "_" + datetimeext + "." + currfileext;
-		//File rename = new File(updatedfilename);
-		//Files.copy(file,rename);
+		String updatedfilename = currfilebase + "_" + datetimeext + "." + currfileext;
+		File rename = new File(updatedfilename);
+		Files.copy(file.toPath(), rename.toPath());
 
-		String filepath = path + "\\src\\main\\resources\\SharePointLib\\PowerShellscripts\\SharePoint.ps1";
+		String filepath = path + "\\src\\test\\resources\\SharePointLib\\PowerShellscripts\\SharePoint.ps1";
 		String dllpth = path + getDllLibPath();
 
 		filepath = filepath.replaceAll(" ", "` ");
-		//String powerCommand = "cmd /C " + "powershell " + filepath + " -URL '" + SharePointUrl + "' -DocumentLocation '"
-			//	+ SharePointLocation + "' -user '" + UserName + "' -cred '" + Password + "' -path '" + updatedfilename
-			//	+ "' -dllPath '" + dllpth + "'";
+		String powerCommand = "cmd /C " + "powershell " + filepath + " -URL '" + SharePointUrl + "' -DocumentLocation '"
+				+ SharePointLocation + "' -user '" + UserName + "' -cred '" + Password + "' -path '" + updatedfilename
+				+ "' -dllPath '" + dllpth + "'";
 
 		Runtime runtimeCMD = Runtime.getRuntime();
-		//Process ExecuteProcess = runtimeCMD.exec(powerCommand);
-		//ExecuteProcess.getOutputStream().close();
+		Process ExecuteProcess = runtimeCMD.exec(powerCommand);
+		ExecuteProcess.getOutputStream().close();
 		String line, sharePointURL = null;
 
-		//BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(ExecuteProcess.getInputStream()));
-
-		//oLog.debug("Input stream: " + bufferedreader);
-		/*
+		BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(ExecuteProcess.getInputStream()));
 		int i = 1;
 		while ((line = bufferedreader.readLine()) != null) {
-			System.out.println("LOG Details:" + line);
-			//oLog.debug("LOG Details:" + line);
 			if (line.toLowerCase().contains("FileURL".toLowerCase())) {
 				String[] fileURL = line.split("FileURL:");
 				sharePointURL = fileURL[1];
@@ -83,30 +81,11 @@ public class UploadReportTOSharePointHelper {
 				break;
 			}
 			i++;
-		}*/
-
-		//bufferedreader.close();
-		//System.out.println("Standard Error:");
-		//BufferedReader stderr = new BufferedReader(new InputStreamReader(ExecuteProcess.getErrorStream()));
-
-		//oLog.debug("Standard Error: " + stderr);
-
-		//while ((line = stderr.readLine()) != null) {
-			//System.out.println(line);
-		//}
-		//stderr.close();
-		System.out.println("Done uploading the Result file at sharepoint");
-		System.out.println("Share Point URL: " + sharePointURL);
-		//oLog.debug("Share Point URL: " + sharePointURL);
-		
-		try {
-		//	if(rename.delete()) {
-		//		oLog.debug("Succesfully deleted the temp file")	;
-		//	}
 		}
-		catch(Exception e){
-		//	oLog.error("Unable to delete temp result file"+e);
-		}
+
+		bufferedreader.close();
+		BufferedReader stderr = new BufferedReader(new InputStreamReader(ExecuteProcess.getErrorStream()));
+		stderr.close();
 		return sharePointURL;
 
 	}
@@ -134,11 +113,16 @@ public class UploadReportTOSharePointHelper {
 	public String getDllLibPath() {
 		return prop.getProperty("DllLibPath");
 	}
-	
-	
-	
-		
 
-	  
+	private String getCurrentDate() {
+		return getCurrentDateTime("_yyyy-MM-dd_HH-mm-ss").substring(1, 11);
+	}
+	private String getCurrentDateTime(String format) {
+
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		Calendar cal = Calendar.getInstance();
+		String time = "" + dateFormat.format(cal.getTime());
+		return time;
+	}
 
 }

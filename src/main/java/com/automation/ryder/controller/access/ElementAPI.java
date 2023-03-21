@@ -1,12 +1,17 @@
-package com.automation.ryder.controller.actionshub.service;
+package com.automation.ryder.controller.access;
 
 import com.automation.ryder.controller.actionshub.abstracts.Element;
 import com.automation.ryder.controller.actionshub.coreActions.elementfunctions.FindMyElements;
 import com.automation.ryder.controller.actionshub.coreActions.mobile.Mobile;
 import com.automation.ryder.controller.actionshub.coreActions.elementfunctions.Ng;
+import com.automation.ryder.controller.actionshub.coreActions.webApp.Click;
+import com.automation.ryder.controller.actionshub.coreActions.webApp.Is;
+import com.automation.ryder.controller.actionshub.coreActions.webApp.Scroll;
+import com.automation.ryder.controller.actionshub.coreActions.webApp.TextInput;
 import com.automation.ryder.controller.objects.Elements;
 import com.automation.ryder.controller.reports.LogLevel;
 import com.automation.ryder.controller.reports.ReportController;
+import com.automation.ryder.library.core.SwitchTo;
 import com.paulhammant.ngwebdriver.ByAngular;
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
@@ -22,6 +27,11 @@ public class ElementAPI implements Element {
     private Mobile findMobileElement;
     private Ng ng;
     private ReportController reportController;
+    private TextInput textInput;
+    private Click click;
+    private Is is;
+    private Scroll scroll;
+    private SwitchTo switchTo;
 
     public ElementAPI(FindMyElements findMyElements, Mobile findMobileElement, Ng ng, ReportController reportController) {
         this.findMyElements = findMyElements;
@@ -71,7 +81,6 @@ public class ElementAPI implements Element {
     @Override
     public <T> List<Elements> nestedElementsList(WebElement webElement, T locator) {
         reportController.write(LogLevel.INFO, "Getting nested list of elements located by: " + locator.toString());
-        reportController.write(LogLevel.INFO, "Getting nested list of elements located by: " + locator.toString());
         List<WebElement> elementList = new ArrayList<>();
         List<Elements> collectElements = new ArrayList<>();
 
@@ -82,6 +91,7 @@ public class ElementAPI implements Element {
         if (elementList.size() > 0) {
             for (WebElement ele : elementList) {
                 Elements newElement = new Elements(ele);
+                newElement.setRequiredObjects(findMyElements,textInput, click, is, scroll, switchTo);
                 collectElements.add(newElement);
             }
         }
@@ -125,6 +135,7 @@ public class ElementAPI implements Element {
         if (elementList.size() > 0) {
             for (WebElement element : elementList) {
                 Elements newElement = new Elements(element);
+                newElement.setRequiredObjects(findMyElements,textInput, click, is, scroll, switchTo);
                 frameworkElements.add(newElement);
             }
         }
@@ -159,6 +170,22 @@ public class ElementAPI implements Element {
                 break;
         }
         return getBy;
+    }
+
+    /**
+     * To grab dependencies from UserPerforms
+     * @param textInput
+     * @param click
+     * @param is
+     * @param scroll
+     * @param switchTo
+     */
+    protected void setDependenciesForElements(TextInput textInput,Click click,Is is,Scroll scroll,SwitchTo switchTo){
+        this.textInput=textInput;
+        this.click=click;
+        this.is=is;
+        this.scroll=scroll;
+        this.switchTo=switchTo;
     }
 
 }

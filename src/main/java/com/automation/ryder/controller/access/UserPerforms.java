@@ -5,7 +5,6 @@ import com.automation.ryder.controller.actionshub.coreActions.elementfunctions.N
 import com.automation.ryder.controller.actionshub.coreActions.elementfunctions.Waits;
 import com.automation.ryder.controller.actionshub.coreActions.mobile.Mobile;
 import com.automation.ryder.controller.actionshub.coreActions.webApp.*;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
 import com.automation.ryder.controller.actionshub.service.ElementReference;
 import com.automation.ryder.controller.actionshub.service.FrameManager;
 import com.automation.ryder.controller.reports.ReportController;
@@ -41,23 +40,20 @@ public class UserPerforms {
         private Mobile mobile;
         private Browser browser;
         private Dates dates;
-
         private Accessibility accessibility;
-
-        private EyesManager visualTesting;
-        private AzureServiceBus azureServiceBus;
-        private DataBases dataBases;
+        private static EyesManager eyes;
+        private ElementAPI elementAPI;
+       ;
 
         public UserPerforms(FrameManager frameManager, JavaScript javaScript, Ng ng, ElementAPI elementAPI, FindMyElements findMyElements, Properties_Logs pl, RobotActions ra, ScreenCapture sc, Sanitize sanitize, Waits wait,
                             SwitchTo switchTo, Cookies cookies, Convert convert, FileHandler fileHandler, ReportController reportController,
                             Emails email, Fetch get, Click click, TextInput enterText, Scroll scroll, DropDown select, AddOns miscellaneous, Is is,
-                            ElementReference elementRef, SoftAssertions softAssertions, Mobile mobile, Browser browser, Dates dates) {
+                            ElementReference elementRef, SoftAssertions softAssertions, Mobile mobile, Browser browser, Dates dates, Accessibility accessibility) {
             this.pl=pl;
             this.ra=ra;
             this.sc=sc;
             this.sanitize=sanitize;
             this.wait=wait;
-            this.rWebServices=rWebServices;
             this.switchTo=switchTo;
             this.cookies=cookies;
             this.convert=convert;
@@ -76,9 +72,8 @@ public class UserPerforms {
             this.mobile=mobile;
             this.browser=browser;
             this.dates=dates;
-            this.azureServiceBus=azureServiceBus;
-            this.dataBases=dataBases;
-
+            this.elementAPI=elementAPI;
+            setDependenciesForElementAPIClass();
         }
 
         public Click click() {
@@ -254,9 +249,14 @@ public class UserPerforms {
             return new Accessibility();
         }
 
-        public EyesManager visualTesting(){
-            return visualTesting;
+        public static EyesManager visualTesting(){
+            return eyes;
         }
 
-
+    private void setDependenciesForElementAPIClass(){
+        this.elementAPI.setDependenciesForElements(enterText,click,is,scroll,switchTo);
     }
+
+
+
+}

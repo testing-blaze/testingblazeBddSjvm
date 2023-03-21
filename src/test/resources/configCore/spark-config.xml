@@ -17,10 +17,10 @@
         <protocol>https</protocol>
         
         <!-- title of the document -->
-        <documentTitle>Baton Test Automation</documentTitle>
+        <documentTitle>Ryder Test Automation</documentTitle>
         
         <!-- report name - displayed at top-nav -->
-        <reportName>Baton Test Automation</reportName>
+        <reportName>Ryder Test Automation</reportName>
 
 		<!-- timestamp format -->
 		<timeStampFormat>MMM dd, yyyy HH:mm:ss</timeStampFormat>

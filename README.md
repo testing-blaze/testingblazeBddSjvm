@@ -22,21 +22,39 @@ add it to the relevant class only.</br>
 #### Using DI for object management
 We will be using DI approach for Object creation and management. Please see the sample step definition class in project.
 
+#### Highlighting of Elements under action
+Any elements which get interacted from the automation suite will be highlighted to provide better visibility.
 #### How to access libraries of framework?
 ###### Declare a Constructor as below to access all framework capabilities:
-public YourClassName (UserPerforms userPerforms) { this.userPerforms=userPerforms} <br>
+UI Test Suite / UI+API Test Suites </br>
+
+public YourClassName (UserPerforms userPerforms,ServiceUserPerforms serviceUserPerforms) { </br>
+this.userPerforms=userPerforms </br>
+this.serviceUserPerforms=serviceUserPerforms </br>
+} <br>
+
+Note: For API only testing, you can only use ServiceUserPerforms.</br>
+public YourClassName (ServiceUserPerforms serviceUserPerforms) { </br>
+this.serviceUserPerforms=serviceUserPerforms </br>
+}
+
 Now:</br>
-1- Just write in your class: userpPerforms.[You will see list of available libraries] </br>
-2- Do not create any objects to access framework. </br>
+1- To access UI action libraries: userPerforms.[You will see list of available libraries] </br>
+2- To access backend libraries: ServiceUserPerforms.[You will see list of backend actions libraries] </br>
+##### ----- Do not create any objects to access framework. </br>
+
 
 ##### How to run tests?
 Run from Terminal/Pipeline: Use maven command as best practice </br>
 Standard Command: mvn clean test -D"cucumber.filter.tags=@test1 or @test2" </br>
 
-1- On Local Browser:
+1- On Local Browser and API: </br>
 Standard Command +
 Choose Browser:
--Ddevice=chrome/firefox/ie/safari
+-Ddevice=chrome/firefox/ie/safari </br>
+
+API Only Testing Suites
+-Ddevice=api (No browser will be opened) || This is for only API testing projects
 
 2- On Jenkins/Any Engine:
 Standard Command +
@@ -65,5 +83,6 @@ Note: Place the mobile app in “mobileApp” folder in project root. Add “app
 - Parallel: -Ddataproviderthreadcount=2 (If not passed, one thread is default)
 - Wait Time: -DwaitTime= 20 (Default wait time is 10 seconds. This dynamic wait)
 - Headless Mode: -headless=true/false
+- Send Email After Run: -DsendEmail=yes
 ###### Run from IDE
 Go to RyderTestRunner class in src/test and put your tag to run.

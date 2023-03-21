@@ -1,7 +1,7 @@
 package com.automation.ryder.library.core;
 
 import com.automation.ryder.controller.actionshub.abstracts.Element;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
+import com.automation.ryder.controller.access.ElementAPI;
 
 import com.automation.ryder.controller.configuration.DeviceDriver;
 import com.automation.ryder.controller.reports.LogLevel;

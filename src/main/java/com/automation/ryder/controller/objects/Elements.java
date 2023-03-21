@@ -25,7 +25,7 @@ public class Elements {
     }
 
     public void setRequiredObjects(FindMyElements findMyElements,TextInput textInput,Click click,Is is,Scroll scroll,SwitchTo switchTo) {
-        this.element = element;
+       // this.element = element;
         this.click=click;
         this.textInput=textInput;
         this.is=is;

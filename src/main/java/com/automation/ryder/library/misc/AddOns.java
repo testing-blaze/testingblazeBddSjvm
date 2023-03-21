@@ -3,7 +3,7 @@ package com.automation.ryder.library.misc;
 import com.automation.ryder.controller.actionshub.abstracts.Action;
 import com.automation.ryder.controller.actionshub.abstracts.Element;
 import com.automation.ryder.controller.actionshub.service.ActionsHub;
-import com.automation.ryder.controller.actionshub.service.ElementAPI;
+import com.automation.ryder.controller.access.ElementAPI;
 import com.automation.ryder.library.core.JavaScript;
 import com.automation.ryder.library.core.KeysHandler;
 import org.openqa.selenium.WebElement;

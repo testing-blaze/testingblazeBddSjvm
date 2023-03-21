@@ -40,11 +40,10 @@ public class UserPerforms {
         private Mobile mobile;
         private Browser browser;
         private Dates dates;
-
         private Accessibility accessibility;
-
-        private EyesManager visualTesting;
+        private static EyesManager eyes;
         private ElementAPI elementAPI;
+       ;
 
         public UserPerforms(FrameManager frameManager, JavaScript javaScript, Ng ng, ElementAPI elementAPI, FindMyElements findMyElements, Properties_Logs pl, RobotActions ra, ScreenCapture sc, Sanitize sanitize, Waits wait,
                             SwitchTo switchTo, Cookies cookies, Convert convert, FileHandler fileHandler, ReportController reportController,
@@ -250,8 +249,8 @@ public class UserPerforms {
             return new Accessibility();
         }
 
-        public EyesManager visualTesting(){
-            return visualTesting;
+        public static EyesManager visualTesting(){
+            return eyes;
         }
 
     private void setDependenciesForElementAPIClass(){

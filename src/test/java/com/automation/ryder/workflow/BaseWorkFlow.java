@@ -28,6 +28,8 @@ public class BaseWorkFlow {
         // serviceUserPerforms.azureServiceBusActionsTo().sendMessageToTopic("","","");
         //Assert.assertTrue(false);
         //serviceUserPerforms.dataBaseActionsOn().SQL().TogetConnection();
+
+        userPerforms.textInput().in(By.xpath(""),"abc",false);
     }
 
     public void sample2() {
